@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+*, 
+*:after,
+*:before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+:root{
+   --Blue-Secondary: #0076FF;
+   --Blue-Primary: #17172B;
+   --Text: #34343E;
+   --White: #ffffff;
+   --Red: #FF0000;
+   --Light-Blue: #F2F8FF;
+   --Ten-Blue: rgba(0, 118, 255, 0.10);
+   --Light-Gray: #747480;
+}
+
+body{
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    font-family: "Inter", sans-serif;
+    font-style: normal;
+}
+
+aside{
+    width: 300px;
+    padding: 30px 20px;
+    background: var(--Light-Blue);
+}
+
+h2{
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--Blue-Primary);
+}
+
+h1{
+    font-size: 48px;
+    font-weight: bold;
+    color: var(--Blue-Primary);
+}
+
+.sidebar div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.sidebar-add-project{
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-add-project:hover{
+    background: var(--Ten-Blue);
+}
+
+.sidebar ul{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-project-item{
+    font-size: 16px;
+    color: var(--Blue-Primary);
+    font-weight: 600;
+    list-style-type: none;
+    cursor: pointer;
+    padding: 6px 15px;
+}
+
+.sidebar-project-item[aria-selected="true"]{
+    border-radius: 4px;
+    background: var(--Ten-Blue);
+    
+}
+
+section{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 100px 0px;
+}
+
+.project{
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.project-add-task{
+    background: none;
+    border: none;
+    color: var(--Light-Gray);
+    font-size: 14px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.project-add-task svg{
+    fill: var(--Light-Gray);
+}
+
+.project-add-task:hover, .project-add-task:hover svg{
+    color: var(--Blue-Secondary);
+    fill: var(--Blue-Secondary);
+}
