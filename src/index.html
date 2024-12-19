@@ -17,7 +17,21 @@
             <li class="sidebar-project-item" aria-selected="false">Project Name</li>
         </ul>
     </aside>
-    
+
+    <dialog class="modal sidebar-add-project-modal">
+        <div>
+            <h2>Add new project</h2>
+            <form>
+                <label for="new-project-name">Project name</label>
+                <input type="text" name="new-project-name" placeholder="Study tasks">
+                <div class="add-project-modal-buttons">
+                    <button class="cancel-button add-project-cancel-btn" type="button">Cancel</button>
+                    <button type="submit" class="blue-button">Add</button>
+                </div> 
+            </form>
+        </div>
+    </dialog>
+
     <section>
         <div class="project">
             <h1 class="project-title">👋 Project Name</h1>

@@ -126,3 +126,92 @@ section{
     color: var(--Blue-Secondary);
     fill: var(--Blue-Secondary);
 }
+
+.modal{
+    padding: 40px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    border-radius: 16px;
+    width: 570px;
+}
+
+.sidebar-add-project-modal div:first-child{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.sidebar-add-project-modal form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+form label{
+    font-size: 16px;
+    color: var(--Blue-Primary);
+    font-weight: 700;
+}
+
+form input{
+    width: 100%;
+    border: solid 1px #E6F1F8;
+    border-radius: 8px;
+    padding-left: 20px;
+    height: 50px;
+    font-size: 16px;
+    color: var(--Blue-Primary);
+}
+
+form input::placeholder{
+  color: var(--Light-Gray);
+  font-size: 16px;
+}
+
+.add-project-modal-buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    margin-top: 30px;
+}
+
+.blue-button{
+    padding: 18px 28px;
+    border-radius: 30px;
+    background: var(--Blue-Secondary);
+    border: none;
+    color: var(--White);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 100%; /* 16px */
+    letter-spacing: -0.16px;
+    min-width: 135px;
+    cursor: pointer;
+}
+
+.blue-button:hover{
+    background: #004EA9;
+}
+
+.cancel-button{
+    color: var(--Text);
+    background: rgba(52, 52, 62, 0.10);
+    padding: 18px 28px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 100%; /* 16px */
+    letter-spacing: -0.16px;
+    min-width: 135px;
+    cursor: pointer;
+}
+
+.cancel-button:hover{
+    background: var(--Text);
+    color: var(--White);
+}
+
