@@ -10,10 +10,13 @@ saveProject(project3);
 
 const btnNewProject = document.querySelector('.sidebar-add-project');
 const addProjectModal = document.querySelector('.sidebar-add-project-modal');
+const addTaskModal = document.querySelector('.task-add-modal');
 const btnCloseAddProjectModal = document.querySelector('.add-project-cancel-btn');
 const newProjectForm = document.querySelector('.sidebar-add-project-modal form')
 const sidebarProjectList = document.querySelector('.sidebar-project-list');
 const projectTitle = document.querySelector('.project-title');
+
+addTaskModal.showModal();
 
 btnNewProject.addEventListener('click', ()=>{
     
