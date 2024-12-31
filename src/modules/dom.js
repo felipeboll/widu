@@ -16,7 +16,19 @@ const newProjectForm = document.querySelector('.sidebar-add-project-modal form')
 const sidebarProjectList = document.querySelector('.sidebar-project-list');
 const projectTitle = document.querySelector('.project-title');
 
-addTaskModal.showModal();
+//new task modal
+const priorityInputList = document.querySelectorAll('#priority-options .option input'),
+btnPrioritySelectText = document.getElementById('task-selected-button-text'),
+prioritySelectCheckBox = document.getElementById('priority-select'),
+projectSelectedText = document.getElementById('project-selected-button'),
+projectList = document.querySelector('#project-options'),
+projectInputList = document.querySelectorAll('#project-options .option input'),
+projectSelectCheckBox = document.getElementById('project-select');
+
+const addTaskButton = document.querySelector('.project-add-task');
+
+
+
 
 btnNewProject.addEventListener('click', ()=>{
     
@@ -90,3 +102,48 @@ function displayProjectTasks(index){
 
 refreshScreen();
 
+priorityInputList.forEach(element => {
+    element.addEventListener('click', event=>{
+
+        const priorityValue = event.target.value;
+        const svgPath = document.querySelector('#task-selected-button svg path');
+
+        btnPrioritySelectText.textContent = priorityValue;
+
+        if(priorityValue === 'Medium'){
+            svgPath.setAttribute('fill', '#FC7900'); // Cor para Medium
+        }else if(priorityValue === 'High'){
+            svgPath.setAttribute('fill', '#CA0004');
+        }else if(priorityValue == 'Regular'){
+            svgPath.setAttribute('fill', '#0076FF');
+        }
+        prioritySelectCheckBox.click();
+    })
+});
+
+addTaskButton.addEventListener('click', ()=>{
+    addTaskModal.showModal();
+    showProjectDropDown();
+});
+
+
+function showProjectDropDown(){
+    projectSelectedText.innerText = projects[0].name;
+
+    projects.forEach(project => {
+        const li = document.createElement('li');
+        const input = document.createElement('input');
+
+        li.setAttribute('data-index', projects.indexOf(project));
+        li.classList.add('option');
+
+        input.setAttribute('type', 'radio');
+        input.setAttribute('name', 'project');
+        input.setAttribute('value', project.name);
+        li.innerHTML = project.name;
+
+        li.append(input);
+
+        projectList.append(li);
+    });
+}

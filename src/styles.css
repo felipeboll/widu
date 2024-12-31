@@ -216,7 +216,7 @@ form input[type="date"] {
     gap: 12px;
 }
 
-#priority-select:checked + #task-selected-button{
+#priority-select:checked + #task-selected-button, #project-select:checked + #project-selected-button{
     border-color: var(--Blue-Secondary);
 }
 
@@ -224,7 +224,7 @@ form input[type="date"] {
     position: relative;
 }
 
-#priority-select{
+#priority-select, #project-select{
     all: unset;
     position: absolute;
 
@@ -257,7 +257,7 @@ form input[type="date"] {
     display: none;
 }
 
-.selector:has(#priority-select:checked) + .selector-dropdown{
+.selector:has(#priority-select:checked) + .selector-dropdown, .selector:has(#project-select:checked) + .selector-dropdown{
     display: block;
 }
 
@@ -287,11 +287,11 @@ form input[type="date"] {
 }
 
 .option:nth-child(2) path {
-    fill: #FC7900; /* Laranja */
+    fill: #FC7900;
 }
 
 .option:nth-child(3) path {
-    fill: #CA0004; /* Laranja */
+    fill: #CA0004; 
 }
 
 .add-project-modal-buttons{
@@ -300,8 +300,6 @@ form input[type="date"] {
     gap: 16px;
     margin-top: 30px;
 }
-
-
 
 .blue-button{
     padding: 18px 28px;
