@@ -1,4 +1,7 @@
-export const createTask = (name, description = '', dueDate = null, priority) =>{
+import {createProject, saveProject, projects} from "./projects";
 
-    return {name, description}
+export const createTask = (name, description = '', dueDate = null, priority, project) =>{
+
+    return {name, description, dueDate, priority, project}
+    
 }

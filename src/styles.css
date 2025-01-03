@@ -86,6 +86,8 @@ h1{
     list-style-type: none;
     cursor: pointer;
     padding: 6px 15px;
+    display: flex;
+    gap: 8px;
 }
 
 .sidebar-project-item[aria-selected="true"]{
@@ -174,7 +176,12 @@ form input{
     color: var(--Blue-Primary);
 }
 
-form input::placeholder{
+form input[type="date"]::placeholder{
+    font-size: 16px;
+    color: var(--Blue-Primary);
+}
+
+form inpu:not([type="date"])::placeholder{
   color: var(--Light-Gray);
   font-size: 16px;
 }
@@ -199,10 +206,6 @@ form input[type="date"] {
     padding-left: 0px;
     max-width:100%;
 
-}
-
-#date{
-    color: var(--Light-Gray);
 }
 
 .select-button{
