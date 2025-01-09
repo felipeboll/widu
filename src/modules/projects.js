@@ -7,5 +7,6 @@ export const createProject = (name) =>{
 
 export function saveProject(project){
     projects.push(project);
+   
 }
 

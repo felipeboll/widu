@@ -1,8 +1,8 @@
 import {createProject, saveProject, projects} from "./projects";
-import { createTask } from "./todos";
+import { createTask, saveTask } from "./todos";
 
 const project1 = createProject('All Tasks');
-const project2 = createProject('Projeto B');
+const project2 = createProject('Inbox');
 const project3 = createProject('Projeto C');
 
 saveProject(project1);
@@ -135,10 +135,10 @@ priorityInputList.forEach(element => {
 addTaskButton.forEach(button => {
     button.addEventListener('click', ()=>{
         addTaskModal.showModal();
-        showProjectDropDown();
     });
 })
 
+showProjectDropDown();
 
 function showProjectDropDown(){
 
@@ -149,6 +149,12 @@ function showProjectDropDown(){
         const input = document.createElement('input');
    
         if(projects.indexOf(project) != 0){
+
+            //makes the inbox project the regular input
+            if(projects.indexOf(project) === 1){
+                input.checked = true;
+            }
+
             li.classList.add('option');
 
             input.setAttribute('data-index', projects.indexOf(project));
@@ -183,7 +189,17 @@ newTaskForm.addEventListener('submit', (event)=>{
     event.preventDefault();
 
     const formData = new FormData(newTaskForm);
-    
+
     const task = createTask();
 
+    task.name = formData.get('task-name');
+    task.description = formData.get('task-description');
+    task.dueDate = formData.get('task-due-date');
+    task.priority = formData.get('priority');
+    task.project = formData.get('project');
+
+    saveTask(task);
+    newTaskForm.reset();
+    addTaskModal.close();
+    
 });
