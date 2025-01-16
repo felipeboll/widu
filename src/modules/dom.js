@@ -111,6 +111,10 @@ sidebarProjectList.addEventListener('click', (element) =>{
 function displayProjectTasks(index){
     projectTitle.innerHTML = projects[index].name;
 
+}
+
+function displayTasks(index){
+
     projects[index].tasks.forEach(task => {
         const li = document.createElement('li');
         li.classList.add('task-list-item')

@@ -67,6 +67,7 @@ h1{
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 200ms;
 }
 
 .sidebar-add-project:hover{
@@ -88,6 +89,7 @@ h1{
     padding: 6px 15px;
     display: flex;
     gap: 8px;
+    transition: background 200ms;
 }
 
 .sidebar-project-item[aria-selected="true"]{
@@ -121,9 +123,11 @@ section{
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    transition: color 200ms;
 }
 
 .project-add-task svg{
+    transition: color 200ms;
     fill: var(--Light-Gray);
 }
 
