@@ -7,12 +7,9 @@ export const createTask = (name, description = '', dueDate = null, priority, pro
 }
 
 export function saveTask(task){
-
     projects.forEach(project => {
-        if(task.project === project.name){
+        if(project.name === task.project){
             project.tasks.push(task);
-            console.log(project.tasks);
         }
     });
-
 }

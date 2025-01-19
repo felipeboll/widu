@@ -1,5 +1,6 @@
 import {createProject, saveProject, projects} from "./projects";
 import { createTask, saveTask } from "./todos";
+import { format, parseISO } from 'date-fns'
 
 const project1 = createProject('All Tasks');
 const project2 = createProject('Inbox');
@@ -91,6 +92,8 @@ function refreshScreen(){
     });
 }
 
+
+
 sidebarProjectList.addEventListener('click', (element) =>{
 
     const activeItem = element.target.closest('.sidebar-project-item');
@@ -129,6 +132,14 @@ function displayTasks(index){
         p.classList.add('task-name');
         p.innerHTML = task.name;
 
+        const div = document.createElement('div');
+        div.append(p);
+        
+        const date = document.createElement('p');
+        date.innerHTML = format(task.dueDate, "dd MMM");
+        date.classList.add('task-date');
+        div.append(date);
+
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('task-delete');
         deleteButton.innerHTML = `
@@ -142,12 +153,26 @@ function displayTasks(index){
             </clipPath>
           </defs>
         </svg>`;
-      
+        
+        let priorityColor;
+
+        switch (task.priority){
+            case "Regular":
+                priorityColor = "#0076FF";
+                break;
+            case "Medium":
+                priorityColor = "#FC7900";
+                break;
+            case "High":
+                priorityColor = "#CA0004";
+                break;
+        }
+
         const secondSVG = document.createElement('span');
         secondSVG.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
           <g clip-path="url(#clip0_126_226)">
-            <path d="M0.666667 16.5C0.489856 16.5 0.320286 16.4298 0.195262 16.3047C0.0702379 16.1797 0 16.0101 0 15.8333V3.16667C0 1.696 1.196 0.500003 2.66667 0.500003H14.6653C15.732 0.463337 16.4013 1.80534 15.7307 2.63534L13.5727 5.5L15.7307 8.36467C16.402 9.19467 15.7327 10.5367 14.6653 10.5H1.33333V15.8333C1.33333 16.0101 1.2631 16.1797 1.13807 16.3047C1.01305 16.4298 0.843478 16.5 0.666667 16.5Z" fill="#0076FF"/>
+            <path d="M0.666667 16.5C0.489856 16.5 0.320286 16.4298 0.195262 16.3047C0.0702379 16.1797 0 16.0101 0 15.8333V3.16667C0 1.696 1.196 0.500003 2.66667 0.500003H14.6653C15.732 0.463337 16.4013 1.80534 15.7307 2.63534L13.5727 5.5L15.7307 8.36467C16.402 9.19467 15.7327 10.5367 14.6653 10.5H1.33333V15.8333C1.33333 16.0101 1.2631 16.1797 1.13807 16.3047C1.01305 16.4298 0.843478 16.5 0.666667 16.5Z" fill="${priorityColor}"/>
           </g>
           <defs>
             <clipPath id="clip0_126_226">
@@ -157,12 +182,11 @@ function displayTasks(index){
         </svg>`;
 
         li.append(checkBox);
-        li.append(p);
+        li.append(div);
         li.append(deleteButton);
         li.append(secondSVG);
         
         taskList.append(li);
-
     });
 }
 
@@ -190,26 +214,27 @@ priorityInputList.forEach(element => {
 addTaskButton.forEach(button => {
     button.addEventListener('click', ()=>{
         addTaskModal.showModal();
+        showProjectDropDown();
     });
 })
 
-showProjectDropDown();
-
 function showProjectDropDown(){
+
+    projectList.innerHTML = '';
 
     projectSelectedText.innerText = projects[1].name;
 
-    projects.forEach(project => {
+    projects.forEach((project, index) => {
         const li = document.createElement('li');
         const input = document.createElement('input');
    
-        if(projects.indexOf(project) != 0){
-
+        if(index != 0){
             //makes the inbox project the regular input
-            if(projects.indexOf(project) === 1){
+            if(index === 1){
                 input.checked = true;
             }
 
+            console.log(index)
             li.classList.add('option');
 
             input.setAttribute('data-index', projects.indexOf(project));
@@ -249,15 +274,18 @@ newTaskForm.addEventListener('submit', (event)=>{
 
     task.name = formData.get('task-name');
     task.description = formData.get('task-description');
-    task.dueDate = formData.get('task-due-date');
+    task.dueDate = formData.get('task-due-date');;
     task.priority = formData.get('priority');
     task.project = formData.get('project');
+    console.log(task);
+    console.log(task.project);
 
     saveTask(task);
-    
-
+    const index = projects.findIndex(project => project.name === task.project);
+    displayProjectTasks(index);
+    console.log(task.dueDate);
     newTaskForm.reset();
     addTaskModal.close();
-    
+
 });
 
