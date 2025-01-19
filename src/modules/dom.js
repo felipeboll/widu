@@ -97,11 +97,11 @@ sidebarProjectList.addEventListener('click', (element) =>{
     if(activeItem){
         activeItem.setAttribute('aria-selected', true);
         const index = activeItem.getAttribute('data-index');
-    
+        
         Array.from(sidebarProjectList.children).forEach((item) => {
             item.setAttribute('aria-selected', false);
         });
-    
+        
         activeItem.setAttribute('aria-selected', true);
         displayProjectTasks(index);
     }
@@ -110,10 +110,12 @@ sidebarProjectList.addEventListener('click', (element) =>{
 
 function displayProjectTasks(index){
     projectTitle.innerHTML = projects[index].name;
-
+    displayTasks(index);
 }
 
 function displayTasks(index){
+
+    taskList.innerHTML = '';
 
     projects[index].tasks.forEach(task => {
         const li = document.createElement('li');
@@ -252,6 +254,8 @@ newTaskForm.addEventListener('submit', (event)=>{
     task.project = formData.get('project');
 
     saveTask(task);
+    
+
     newTaskForm.reset();
     addTaskModal.close();
     
