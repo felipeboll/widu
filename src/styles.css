@@ -356,6 +356,7 @@ form input[type="date"] {
     flex-direction: row;
     gap: 10px;
     width: 100%;
+    align-items: center;
 }
 
 .task-list-item div{

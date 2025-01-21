@@ -1,6 +1,6 @@
 import {createProject, saveProject, projects} from "./projects";
-import { createTask, saveTask } from "./todos";
-import { format, parseISO } from 'date-fns'
+import { createTask, saveTask, deleteTask } from "./todos";
+import { format} from 'date-fns'
 
 const project1 = createProject('All Tasks');
 const project2 = createProject('Inbox');
@@ -29,9 +29,10 @@ newTaskForm = document.querySelector('.task-add-modal form'),
 btnCloseAddTaskModal = document.querySelector('.task-add-modal form .cancel-button');
 
 const taskList = document.querySelector('.task-list');
-
-
 const addTaskButton = document.querySelectorAll('.project-add-task');
+
+let activeProject = project1;
+displayProjects();
 
 btnNewProject.addEventListener('click', ()=>{
     addProjectModal.showModal();
@@ -61,37 +62,38 @@ newProjectForm.addEventListener('submit', (event)=>{
 
     console.log(projects);
 
-    displayProjects(project);
+    displayProjects();
 });
 
-function displayProjects (project){
+function displayProjects(){
 
-    const li = document.createElement('li');
-    li.setAttribute('data-index', projects.indexOf(project));
-    li.classList.add('sidebar-project-item');
-    li.innerHTML = project.name;
+    sidebarProjectList.innerHTML = '';
 
-    if(projects.indexOf(project) == 0){
-        li.setAttribute('aria-selected', true);
-        displayProjectTasks(0);
-        li.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M17.8801 7.84127L15.9023 3.8457C15.5627 3.14648 14.8635 2.70697 14.0644 2.70697H3.91565C3.11654 2.70697 2.43729 3.1265 2.07769 3.8457L0.099889 7.82129C0.0399556 7.94115 0 8.081 0 8.20087V13.5749C0 14.5139 0.759157 15.293 1.71809 15.293H16.2819C17.2209 15.293 18 14.5338 18 13.5749V8.22084C17.98 8.081 17.9401 7.94115 17.8801 7.84127ZM12.4661 7.3618C12.0666 7.3618 11.727 7.64149 11.6271 8.04104C11.6071 8.12096 11.1476 10.2586 8.97003 10.2586C6.85239 10.2586 6.37292 8.28078 6.31299 8.04104C6.23307 7.64149 5.89345 7.3618 5.47392 7.3618H2.23751L3.61598 4.60486C3.67592 4.50497 3.79578 4.40508 3.91565 4.40508H14.0644C14.1842 4.40508 14.3041 4.46502 14.364 4.60486L15.7225 7.3618H12.4661Z" fill="#FC0005"/>
-        </svg>
-        <span> ${project.name}</span>`;
-    }else{
-        li.setAttribute('aria-selected', false);
-    }
+    projects.forEach(project => {
+        const li = document.createElement('li');
+        li.setAttribute('data-index', projects.indexOf(project));
+        li.classList.add('sidebar-project-item');
+        li.innerHTML = project.name;
+    
+        if(projects.indexOf(project) == 0){
+            li.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M17.8801 7.84127L15.9023 3.8457C15.5627 3.14648 14.8635 2.70697 14.0644 2.70697H3.91565C3.11654 2.70697 2.43729 3.1265 2.07769 3.8457L0.099889 7.82129C0.0399556 7.94115 0 8.081 0 8.20087V13.5749C0 14.5139 0.759157 15.293 1.71809 15.293H16.2819C17.2209 15.293 18 14.5338 18 13.5749V8.22084C17.98 8.081 17.9401 7.94115 17.8801 7.84127ZM12.4661 7.3618C12.0666 7.3618 11.727 7.64149 11.6271 8.04104C11.6071 8.12096 11.1476 10.2586 8.97003 10.2586C6.85239 10.2586 6.37292 8.28078 6.31299 8.04104C6.23307 7.64149 5.89345 7.3618 5.47392 7.3618H2.23751L3.61598 4.60486C3.67592 4.50497 3.79578 4.40508 3.91565 4.40508H14.0644C14.1842 4.40508 14.3041 4.46502 14.364 4.60486L15.7225 7.3618H12.4661Z" fill="#FC0005"/>
+            </svg>
+            <span> ${project.name}</span>`;
+        }
 
-    sidebarProjectList.append(li);
-}
-
-function refreshScreen(){
-    projects.forEach(element => {
-        displayProjects(element);
+        if(project === activeProject){
+            li.setAttribute('aria-selected', true);
+        }else{
+            li.setAttribute('aria-selected', false);
+        }
+    
+        sidebarProjectList.append(li);
     });
-}
 
+    displayProjectTasks();
+}
 
 
 sidebarProjectList.addEventListener('click', (element) =>{
@@ -106,24 +108,25 @@ sidebarProjectList.addEventListener('click', (element) =>{
         });
         
         activeItem.setAttribute('aria-selected', true);
-        displayProjectTasks(index);
+        activeProject = projects[index];
+        displayProjects()
     }
 
 });
 
-function displayProjectTasks(index){
-    projectTitle.innerHTML = projects[index].name;
-    displayTasks(index);
+function displayProjectTasks(){
+    projectTitle.innerHTML = activeProject.name;
+    displayTasks();
 }
 
-function displayTasks(index){
+function displayTasks(){
 
     taskList.innerHTML = '';
 
-    projects[index].tasks.forEach(task => {
+    activeProject.tasks.forEach(task => {
         const li = document.createElement('li');
         li.classList.add('task-list-item')
-        li.setAttribute('data-index', projects[index].tasks.indexOf(task));
+        li.setAttribute('data-index', activeProject.tasks.indexOf(task));
 
         const checkBox = document.createElement('button');
         checkBox.classList.add('task-checkbox');
@@ -135,11 +138,13 @@ function displayTasks(index){
         const div = document.createElement('div');
         div.append(p);
         
-        const date = document.createElement('p');
-        date.innerHTML = format(task.dueDate, "dd MMM");
-        date.classList.add('task-date');
-        div.append(date);
-
+        if(task.dueDate){
+            const date = document.createElement('p');
+            date.innerHTML = format(task.dueDate, "dd MMM");
+            date.classList.add('task-date');
+            div.append(date);
+        }
+       
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('task-delete');
         deleteButton.innerHTML = `
@@ -188,9 +193,18 @@ function displayTasks(index){
         
         taskList.append(li);
     });
-}
 
-refreshScreen();
+    const deleteAndCheckTaskButton = document.querySelectorAll('.task-delete');
+
+    deleteAndCheckTaskButton.forEach(button=>{
+        button.addEventListener('click', ()=>{
+            const taskIndex = button.closest('li').getAttribute('data-index');
+            console.log(taskIndex);
+            deleteTask(activeProject.tasks[taskIndex]);
+            displayProjects();
+        })
+    });
+}
 
 priorityInputList.forEach(element => {
     element.addEventListener('click', event=>{
@@ -212,11 +226,14 @@ priorityInputList.forEach(element => {
 });
 
 addTaskButton.forEach(button => {
+    
     button.addEventListener('click', ()=>{
         addTaskModal.showModal();
         showProjectDropDown();
     });
 })
+
+
 
 function showProjectDropDown(){
 
@@ -281,8 +298,14 @@ newTaskForm.addEventListener('submit', (event)=>{
     console.log(task.project);
 
     saveTask(task);
-    const index = projects.findIndex(project => project.name === task.project);
-    displayProjectTasks(index);
+
+    projects.forEach(project => {
+        if(project.name === task.project){
+            activeProject = project;
+        }
+    });
+
+    displayProjects();
     console.log(task.dueDate);
     newTaskForm.reset();
     addTaskModal.close();

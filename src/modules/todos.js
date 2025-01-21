@@ -13,3 +13,11 @@ export function saveTask(task){
         }
     });
 }
+
+export function deleteTask(task){
+    projects.forEach(project => {
+        if(project.name === task.project){
+            project.tasks.splice(project.tasks.indexOf(task),1);
+        }
+    });
+}
