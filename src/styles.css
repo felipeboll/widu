@@ -393,10 +393,14 @@ form input[type="date"] {
     border-radius: 4px;
     border: 1px solid rgba(0, 118, 255, 0.50);
     background-color: var(--White);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .task-checkbox:hover{
     border: 1px solid var(--Blue-Secondary);
+    background-color: var(--Blue-Secondary);
 }
 
 .task-delete{

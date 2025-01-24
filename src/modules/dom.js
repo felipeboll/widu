@@ -65,6 +65,7 @@ newProjectForm.addEventListener('submit', (event)=>{
     displayProjects();
 });
 
+
 function displayProjects(){
 
     sidebarProjectList.innerHTML = '';
@@ -116,20 +117,38 @@ sidebarProjectList.addEventListener('click', (element) =>{
 
 function displayProjectTasks(){
     projectTitle.innerHTML = activeProject.name;
-    displayTasks();
+    if(activeProject.name === project1.name){
+        taskList.innerHTML = '';
+        projects.forEach(project =>{
+            displayTasks(project);
+        })
+    }else{
+        taskList.innerHTML = '';
+        displayTasks(activeProject);
+    }
 }
 
-function displayTasks(){
 
-    taskList.innerHTML = '';
-
-    activeProject.tasks.forEach(task => {
+function displayTasks(project){
+  
+    project.tasks.forEach(task => {
         const li = document.createElement('li');
         li.classList.add('task-list-item')
-        li.setAttribute('data-index', activeProject.tasks.indexOf(task));
+        li.setAttribute('project-index', projects.indexOf(project));
+        li.setAttribute('data-index', project.tasks.indexOf(task));
 
         const checkBox = document.createElement('button');
         checkBox.classList.add('task-checkbox');
+        checkBox.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <g clip-path="url(#clip0_203_2)">
+            <path d="M4.59502 10.4828C4.48047 10.598 4.32419 10.6623 4.16185 10.6623C3.99951 10.6623 3.84322 10.598 3.72868 10.4828L0.269259 7.02285C-0.089753 6.66384 -0.089753 6.08168 0.269259 5.72334L0.702429 5.29005C1.06155 4.93104 1.64304 4.93104 2.00205 5.29005L4.16185 7.44996L9.99792 1.61377C10.357 1.25476 10.9391 1.25476 11.2975 1.61377L11.7307 2.04705C12.0897 2.40607 12.0897 2.98811 11.7307 3.34657L4.59502 10.4828Z" fill="white"/>
+        </g>
+        <defs>
+            <clipPath id="clip0_203_2">
+            <rect width="12" height="12" fill="white"/>
+            </clipPath>
+        </defs>
+        </svg>`;
 
         const p = document.createElement('p');
         p.classList.add('task-name');
@@ -186,23 +205,34 @@ function displayTasks(){
           </defs>
         </svg>`;
 
+
         li.append(checkBox);
         li.append(div);
         li.append(deleteButton);
         li.append(secondSVG);
         
         taskList.append(li);
-    });
 
-    const deleteAndCheckTaskButton = document.querySelectorAll('.task-delete');
-
-    deleteAndCheckTaskButton.forEach(button=>{
-        button.addEventListener('click', ()=>{
-            const taskIndex = button.closest('li').getAttribute('data-index');
-            console.log(taskIndex);
-            deleteTask(activeProject.tasks[taskIndex]);
-            displayProjects();
-        })
+        const deleteTaskButton = document.querySelectorAll('.task-delete');
+        const checkTaskButton = document.querySelectorAll('.task-checkbox')
+    
+        deleteTaskButton.forEach(button=>{
+            button.addEventListener('click', ()=>{
+                const taskIndex = button.closest('li').getAttribute('data-index');
+                const projectIndex = button.closest('li').getAttribute('project-index');
+                deleteTask(projects[projectIndex].tasks[taskIndex]);
+                displayProjects();
+            })
+        });
+    
+        checkTaskButton.forEach(button=>{
+            button.addEventListener('click', ()=>{
+                const taskIndex = button.closest('li').getAttribute('data-index');
+                const projectIndex = button.closest('li').getAttribute('project-index');
+                deleteTask(projects[projectIndex].tasks[taskIndex]);
+                displayProjects();
+            })
+        });
     });
 }
 
@@ -238,20 +268,28 @@ addTaskButton.forEach(button => {
 function showProjectDropDown(){
 
     projectList.innerHTML = '';
+    let indexOfActiveProject = projects.indexOf(activeProject);
 
-    projectSelectedText.innerText = projects[1].name;
+    // Verifica se o índice ativo é 0 e define o texto do projeto selecionado como o projeto na posição 1 (Inbox)
+    if (indexOfActiveProject === 0) {
+        projectSelectedText.innerText = projects[1].name;
+    } else {
+        projectSelectedText.innerText = projects[indexOfActiveProject].name;
+    }
 
     projects.forEach((project, index) => {
         const li = document.createElement('li');
         const input = document.createElement('input');
-   
-        if(index != 0){
-            //makes the inbox project the regular input
-            if(index === 1){
-                input.checked = true;
-            }
 
-            console.log(index)
+        // Se o índice ativo for 0, define o projeto na posição 1 (Inbox) como selecionado
+        if (indexOfActiveProject === 0 && index === 1) {
+            input.checked = true;
+        } else if (index === indexOfActiveProject) {
+            input.checked = true;
+        }
+
+        // Ignora o primeiro projeto (posição 0) e cria os elementos para os demais projetos
+        if (index !== 0) {
             li.classList.add('option');
 
             input.setAttribute('data-index', projects.indexOf(project));
@@ -259,13 +297,12 @@ function showProjectDropDown(){
             input.setAttribute('name', 'project');
             input.setAttribute('value', project.name);
             li.innerHTML = project.name;
-    
+
             li.append(input);
-    
             projectList.append(li);
         }
     });
-
+    
     const projectInputList = document.querySelectorAll('#project-options .option input');
 
     projectInputList.forEach(element =>{
