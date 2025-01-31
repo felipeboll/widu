@@ -152,6 +152,14 @@ section{
     width: 830px;
 }
 
+.task-add-modal form{
+    width: 100%;
+}
+
+.task-add-modal div{
+    display: flex;
+    gap: 18px;
+}
 .sidebar-add-project-modal div:first-child{
     display: flex;
     flex-direction: column;
@@ -193,6 +201,7 @@ form inpu:not([type="date"])::placeholder{
 form input[type="date"] {
     pointer-events: auto; /* Ensure clicks are allowed */
 }
+
 
 #task-name::placeholder, #task-name, #task-name:focus, #task-name:active{
     border: none;
@@ -396,6 +405,25 @@ form input[type="date"] {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 100ms;
+}
+
+.task-checkbox-modal{
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 2px solid var(--Blue-Secondary);
+    background-color: var(--White);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6px;
+    transition: 100ms;
+}
+
+.task-checkbox-modal:hover{
+    background-color: var(--Blue-Secondary);
 }
 
 .task-checkbox:hover{
@@ -414,3 +442,4 @@ form input[type="date"] {
 .task-list-item:hover .task-delete{
     opacity: 1;
 }
+

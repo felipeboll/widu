@@ -1,5 +1,5 @@
 import {createProject, saveProject, projects} from "./projects";
-import { createTask, saveTask, deleteTask } from "./todos";
+import { createTask, saveTask, deleteTask, editTask} from "./todos";
 import { format} from 'date-fns'
 
 const project1 = createProject('All Tasks');
@@ -9,6 +9,7 @@ const project3 = createProject('Projeto C');
 saveProject(project1);
 saveProject(project2);
 saveProject(project3);
+
 
 const btnNewProject = document.querySelector('.sidebar-add-project');
 const addProjectModal = document.querySelector('.sidebar-add-project-modal');
@@ -26,12 +27,23 @@ projectSelectedText = document.getElementById('project-selected-button'),
 projectList = document.querySelector('#project-options'),
 projectSelectCheckBox = document.getElementById('project-select'),
 newTaskForm = document.querySelector('.task-add-modal form'),
-btnCloseAddTaskModal = document.querySelector('.task-add-modal form .cancel-button');
+btnCloseAddTaskModal = document.querySelector('.task-add-modal form .cancel-button'),
+btnCheckDivTaskModal = document.querySelector('.task-add-modal div')
 
 const taskList = document.querySelector('.task-list');
 const addTaskButton = document.querySelectorAll('.project-add-task');
+const submitButton = document.querySelector('.save-task');
+
+//forminputs
+const taskNameInput = document.querySelector('#task-name'),
+taskDescriptionInput = document.querySelector('#task-description'),
+taskDueDateInput = document.querySelector('#date'),
+taskPriorityInput = document.querySelector('#priority-select');
 
 let activeProject = project1;
+let editing = false;
+let editingTask = null;
+
 displayProjects();
 
 btnNewProject.addEventListener('click', ()=>{
@@ -45,7 +57,24 @@ btnCloseAddProjectModal.onclick = (event) => {
 
 btnCloseAddTaskModal.onclick = (event) =>{
     event.preventDefault();
+    if(editing){
+        resetEditingModal();
+        newTaskForm.reset();
+    }
+    console.log(editing);
     addTaskModal.close();
+}
+
+function resetEditingModal(){
+    
+    if(btnCheckDivTaskModal.firstChild) {
+        btnCheckDivTaskModal.removeChild(btnCheckDivTaskModal.firstChild);
+    }
+
+    submitButton.textContent = 'Add';
+
+    editing = false;
+    
 }
 
 newProjectForm.addEventListener('submit', (event)=>{
@@ -110,7 +139,7 @@ sidebarProjectList.addEventListener('click', (element) =>{
         
         activeItem.setAttribute('aria-selected', true);
         activeProject = projects[index];
-        displayProjects()
+        displayProjects();
     }
 
 });
@@ -233,8 +262,75 @@ function displayTasks(project){
                 displayProjects();
             })
         });
+
+        const taskListItemDiv = document.querySelectorAll('.task-list-item div');
+
+            taskListItemDiv.forEach(element => {
+                element.addEventListener('click', (event) =>{
+
+                    const taskDiv = event.target;
+                    const taskIndex = taskDiv.closest('li').getAttribute('data-index');
+                    const projectIndex = taskDiv.closest('li').getAttribute('project-index');
+                    
+                    editing = true;
+                    displayEditTaskModal(taskIndex, projectIndex)
+                    addTaskModal.showModal();
+                    showInputList();
+                    showProjectDropDown();
+            });
+        });
+  
     });
 }
+
+function displayEditTaskModal(taskIndex, projectIndex){
+
+    const existingCheckButton = document.querySelector('.task-checkbox-modal');
+
+    if (!existingCheckButton) {
+        const checkButton = document.createElement('button');
+        checkButton.classList.add('task-checkbox-modal');
+        btnCheckDivTaskModal.prepend(checkButton);
+        checkButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <g clip-path="url(#clip0_203_2)">
+          <path d="M4.59502 10.4828C4.48047 10.598 4.32419 10.6623 4.16185 10.6623C3.99951 10.6623 3.84322 10.598 3.72868 10.4828L0.269259 7.02285C-0.089753 6.66384 -0.089753 6.08168 0.269259 5.72334L0.702429 5.29005C1.06155 4.93104 1.64304 4.93104 2.00205 5.29005L4.16185 7.44996L9.99792 1.61377C10.357 1.25476 10.9391 1.25476 11.2975 1.61377L11.7307 2.04705C12.0897 2.40607 12.0897 2.98811 11.7307 3.34657L4.59502 10.4828Z" fill="white"></path>
+        </g>
+        <defs>
+          <clipPath id="clip0_203_2">
+            <rect width="12" height="12" fill="white"></rect>
+          </clipPath>
+        </defs>
+        </svg>`;
+
+        checkButton.addEventListener('click', ()=>{
+            deleteTask(projects[projectIndex].tasks[taskIndex]);
+            displayProjects();
+            newTaskForm.reset();
+            addTaskModal.close();
+            resetEditingModal();
+        })
+    }
+
+    
+    editingTask = projects[projectIndex].tasks[taskIndex];
+    
+    taskNameInput.value = editingTask.name;
+    taskDescriptionInput.value = editingTask.description;
+    taskDueDateInput.value = editingTask.dueDate;
+    taskPriorityInput.value = editingTask.priority;
+    projectSelectCheckBox.value = editingTask.project;
+
+    submitButton.textContent = 'Save';
+
+}
+
+addTaskButton.forEach(button => {
+    button.addEventListener('click', ()=>{
+        addTaskModal.showModal();
+        showProjectDropDown();
+        showInputList();
+    });
+})
 
 priorityInputList.forEach(element => {
     element.addEventListener('click', event=>{
@@ -255,20 +351,50 @@ priorityInputList.forEach(element => {
     })
 });
 
-addTaskButton.forEach(button => {
-    
-    button.addEventListener('click', ()=>{
-        addTaskModal.showModal();
-        showProjectDropDown();
-    });
-})
+function showInputList(){
 
+    const svgPathPriority = document.querySelector('#task-selected-button svg path');
 
+    if(editing){
+
+        btnPrioritySelectText.textContent = editingTask.priority;
+        let priorityColor = null;
+
+        switch (editingTask.priority){
+            case "Regular":
+                priorityColor = "#0076FF";
+                break;
+            case "Medium":
+                priorityColor = "#FC7900";
+                break;
+            case "High":
+                priorityColor = "#CA0004";
+                break;
+        }
+
+        svgPathPriority.setAttribute('fill', priorityColor);
+
+    }else{
+        btnPrioritySelectText.textContent = 'Regular';
+        svgPathPriority.setAttribute('fill', '#0076FF');
+    }
+}
 
 function showProjectDropDown(){
 
     projectList.innerHTML = '';
-    let indexOfActiveProject = projects.indexOf(activeProject);
+    let indexOfActiveProject;
+
+    if(editing){
+        projects.forEach((project, index) => {
+            if(project.name === editingTask.project){
+                indexOfActiveProject = index;
+            }
+        });
+    }else{
+        indexOfActiveProject = projects.indexOf(activeProject);
+    }
+    
 
     // Verifica se o índice ativo é 0 e define o texto do projeto selecionado como o projeto na posição 1 (Inbox)
     if (indexOfActiveProject === 0) {
@@ -333,9 +459,13 @@ newTaskForm.addEventListener('submit', (event)=>{
     task.project = formData.get('project');
     console.log(task);
     console.log(task.project);
-
-    saveTask(task);
-
+    
+    if(editing){
+        editTask(editingTask, task);
+    }else{
+        saveTask(task);
+    }
+    
     projects.forEach(project => {
         if(project.name === task.project){
             activeProject = project;
@@ -346,6 +476,5 @@ newTaskForm.addEventListener('submit', (event)=>{
     console.log(task.dueDate);
     newTaskForm.reset();
     addTaskModal.close();
-
 });
 

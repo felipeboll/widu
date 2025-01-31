@@ -21,3 +21,14 @@ export function deleteTask(task){
         }
     });
 }
+
+export function editTask(oldTask, updatedTask){
+    projects.forEach(project => {
+        if(project.name === oldTask.project){
+            project.tasks.splice(project.tasks.indexOf(oldTask), 1);
+        }
+    });
+
+    saveTask(updatedTask);
+    
+}
