@@ -1,4 +1,4 @@
-export let projects = [];
+export let projects = JSON.parse(localStorage.getItem('Projects')) || [];
 
 export const createProject = (name) =>{
     let tasks = [];
@@ -7,6 +7,6 @@ export const createProject = (name) =>{
 
 export function saveProject(project){
     projects.push(project);
-   
+    localStorage.setItem('Projects', JSON.stringify(projects));
 }
 

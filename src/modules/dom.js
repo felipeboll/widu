@@ -2,13 +2,14 @@ import {createProject, saveProject, projects} from "./projects";
 import { createTask, saveTask, deleteTask, editTask} from "./todos";
 import { format} from 'date-fns'
 
+
 const project1 = createProject('All Tasks');
 const project2 = createProject('Inbox');
-const project3 = createProject('Projeto C');
 
-saveProject(project1);
-saveProject(project2);
-saveProject(project3);
+if(projects[0] == null){
+    saveProject(project1);
+    saveProject(project2);
+}
 
 
 const btnNewProject = document.querySelector('.sidebar-add-project');

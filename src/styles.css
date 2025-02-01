@@ -347,6 +347,7 @@ form input[type="date"] {
     letter-spacing: -0.16px;
     min-width: 135px;
     cursor: pointer;
+    transition: 150ms;
 }
 
 .cancel-button:hover{
