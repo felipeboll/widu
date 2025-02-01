@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widu</title>
+    <link rel="icon" type="image/x-icon" href="4cfe355bf0ec71d19eb9.png">
+<script defer src="main.js"></script></head>
+<body>
+    <aside class="sidebar">
+        <div>
+            <h2>Projects</h2>
+            <button class="sidebar-add-project"><img src="e996ddd381781f9bd6cd.svg"></button>
+        </div>
+        <ul class="sidebar-project-list">
+        </ul>
+    </aside>
+
+    <dialog class="modal sidebar-add-project-modal">
+        <div>
+            <h2>Add new project</h2>
+            <form>
+                <label for="new-project-name">Project name</label>
+                <input type="text" name="new-project-name" placeholder="Study tasks">
+                <div class="add-project-modal-buttons">
+                    <button class="cancel-button add-project-cancel-btn" type="button">Cancel</button>
+                    <button type="submit" class="blue-button">Add</button>
+                </div> 
+            </form>
+        </div>
+    </dialog>
+
+    <dialog class="modal task-add-modal">
+        <div>
+            <form>
+                <input id="task-name" type="text" name="task-name" placeholder="Task Name">
+                <input id="task-description" type="textarea" name="task-description" placeholder="Description">
+                <div class="form-input-wrapper">
+                    <div class="input-wrap">
+                        <label for="task-due-date">Due Date</label>
+                        <input id="date" type="date" name="task-due-date">
+                    </div>
+                    <div class="input-wrap">
+                        <div class="input-wrap selector">
+                            <label for="task-priority">Priority</label>
+                            <input id="priority-select" type="checkbox" name="task-priority">
+                            <div id="task-selected-button" class="select-button">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
+                                <g clip-path="url(#clip0_137_17)">
+                                  <path d="M15.6018 5.625L18.0295 2.40225C18.3738 1.9455 18.4293 1.3425 18.1735 0.83025C17.9178 0.318 17.404 0 16.831 0H3.33325C1.67875 0 0.333252 1.3455 0.333252 3V17.25C0.333252 17.6647 0.669252 18 1.08325 18C1.49725 18 1.83325 17.6647 1.83325 17.25V11.25H16.8318C17.4048 11.25 17.9185 10.9312 18.1743 10.4197C18.43 9.90825 18.3745 9.30525 18.0303 8.84775L15.6018 5.625ZM1.83325 9.75V3C1.83325 2.17275 2.506 1.5 3.33325 1.5H16.8318L14.0643 5.1735C13.8633 5.4405 13.8633 5.80875 14.0643 6.07575L16.8318 9.74925H1.83325V9.75Z" fill="#0076FF"/>
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_137_17">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.333252)"/>
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                              <span id="task-selected-button-text">Regular</span>
+                            </div>
+                        </div>
+                        <ul id="priority-options" class="selector-dropdown">
+                            <li class="option"> 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
+                                <g clip-path="url(#clip0_137_17)">
+                                  <path d="M15.6018 5.625L18.0295 2.40225C18.3738 1.9455 18.4293 1.3425 18.1735 0.83025C17.9178 0.318 17.404 0 16.831 0H3.33325C1.67875 0 0.333252 1.3455 0.333252 3V17.25C0.333252 17.6647 0.669252 18 1.08325 18C1.49725 18 1.83325 17.6647 1.83325 17.25V11.25H16.8318C17.4048 11.25 17.9185 10.9312 18.1743 10.4197C18.43 9.90825 18.3745 9.30525 18.0303 8.84775L15.6018 5.625ZM1.83325 9.75V3C1.83325 2.17275 2.506 1.5 3.33325 1.5H16.8318L14.0643 5.1735C13.8633 5.4405 13.8633 5.80875 14.0643 6.07575L16.8318 9.74925H1.83325V9.75Z" fill="#0076FF"/>
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_137_17">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.333252)"/>
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                              <input type="radio" name="priority" value="Regular" checked>Regular</li>
+                              <li class="option"> 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
+                                <g clip-path="url(#clip0_137_17)">
+                                  <path d="M15.6018 5.625L18.0295 2.40225C18.3738 1.9455 18.4293 1.3425 18.1735 0.83025C17.9178 0.318 17.404 0 16.831 0H3.33325C1.67875 0 0.333252 1.3455 0.333252 3V17.25C0.333252 17.6647 0.669252 18 1.08325 18C1.49725 18 1.83325 17.6647 1.83325 17.25V11.25H16.8318C17.4048 11.25 17.9185 10.9312 18.1743 10.4197C18.43 9.90825 18.3745 9.30525 18.0303 8.84775L15.6018 5.625ZM1.83325 9.75V3C1.83325 2.17275 2.506 1.5 3.33325 1.5H16.8318L14.0643 5.1735C13.8633 5.4405 13.8633 5.80875 14.0643 6.07575L16.8318 9.74925H1.83325V9.75Z" fill="#0076FF"/>
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_137_17">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.333252)"/>
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                              <input type="radio" name="priority" value="Medium">Medium</li>
+                              <li class="option"> 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
+                                <g clip-path="url(#clip0_137_17)">
+                                  <path d="M15.6018 5.625L18.0295 2.40225C18.3738 1.9455 18.4293 1.3425 18.1735 0.83025C17.9178 0.318 17.404 0 16.831 0H3.33325C1.67875 0 0.333252 1.3455 0.333252 3V17.25C0.333252 17.6647 0.669252 18 1.08325 18C1.49725 18 1.83325 17.6647 1.83325 17.25V11.25H16.8318C17.4048 11.25 17.9185 10.9312 18.1743 10.4197C18.43 9.90825 18.3745 9.30525 18.0303 8.84775L15.6018 5.625ZM1.83325 9.75V3C1.83325 2.17275 2.506 1.5 3.33325 1.5H16.8318L14.0643 5.1735C13.8633 5.4405 13.8633 5.80875 14.0643 6.07575L16.8318 9.74925H1.83325V9.75Z" fill="#0076FF"/>
+                                </g>
+                                <defs>
+                                  <clipPath id="clip0_137_17">
+                                    <rect width="18" height="18" fill="white" transform="translate(0.333252)"/>
+                                  </clipPath>
+                                </defs>
+                              </svg>
+                              <input type="radio" name="priority" value="High">High</li>
+                        </ul>
+                    </div>
+
+                    <div class="input-wrap">
+                        <div class="input-wrap selector">
+                            <label for="task-project">Project</label>
+                            <input id="project-select" type="checkbox" name="task-project">
+                            <div id="project-selected-button" class="select-button">
+                              
+                            </div>
+                        </div>
+                        <ul id="project-options" class="selector-dropdown">
+                           
+                        </ul>
+                    </div>
+                </div>
+                <div class="add-project-modal-buttons">
+                    <button class="cancel-button add-project-cancel-btn" type="button">Cancel</button>
+                    <button type="submit" class="blue-button save-task">Add</button>
+                </div> 
+            </form>
+        </div>
+    </dialog>
+
+
+    <section>
+        <div class="project">
+            <h1 class="project-title"></h1>
+            <ul class="task-list">
+              <li class="task-list-item" data-index="0">
+                <button class="task-checkbox"></button>
+                <p class="task-name">Fazer dever de casa</p>
+                <button class="task-delete">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+                    <g clip-path="url(#clip0_178_2)">
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M5.3375 0.944402C5.33752 0.8267 5.38427 0.713822 5.46748 0.630573C5.55069 0.547325 5.66354 0.500516 5.78125 0.500433L10.2185 0.500183C10.3362 0.500456 10.449 0.547394 10.5322 0.63071C10.6154 0.714025 10.6621 0.826921 10.6622 0.944652V2.04206H5.3375V0.944402ZM12.6332 15.8645C12.6218 16.0375 12.5448 16.1997 12.4178 16.3178C12.2909 16.4359 12.1236 16.501 11.9502 16.4998H3.99856C3.8252 16.4993 3.65844 16.4333 3.53176 16.315C3.40508 16.1966 3.32787 16.0347 3.31562 15.8618L2.63518 5.90812H13.3594L12.6333 15.8644L12.6332 15.8645ZM14.4009 5.00662H1.59909V3.97537C1.59928 3.70186 1.708 3.43961 1.90138 3.24619C2.09476 3.05277 2.35699 2.94399 2.6305 2.94375L13.3694 2.9434C13.6429 2.94382 13.905 3.05269 14.0983 3.24613C14.2917 3.43958 14.4004 3.70179 14.4006 3.97528V5.00653L14.4009 5.00662ZM5.93872 14.127C5.93872 14.1861 5.95037 14.2448 5.97302 14.2994C5.99567 14.3541 6.02887 14.4038 6.07072 14.4456C6.11257 14.4875 6.16225 14.5207 6.21693 14.5433C6.27161 14.566 6.33022 14.5777 6.3894 14.5777C6.44859 14.5777 6.50719 14.566 6.56187 14.5433C6.61655 14.5207 6.66624 14.4875 6.70809 14.4456C6.74994 14.4038 6.78313 14.3541 6.80578 14.2994C6.82843 14.2448 6.84009 14.1861 6.84009 14.127V7.80675C6.83914 7.68789 6.79127 7.57421 6.7069 7.49049C6.62253 7.40676 6.5085 7.35975 6.38964 7.35971C6.27077 7.35967 6.15671 7.4066 6.07228 7.49027C5.98785 7.57394 5.9399 7.68757 5.93887 7.80643V14.127H5.93872ZM9.15434 14.127C9.15434 14.2465 9.20183 14.3612 9.28636 14.4457C9.37089 14.5302 9.48554 14.5777 9.60509 14.5777C9.72464 14.5777 9.83929 14.5302 9.92382 14.4457C10.0084 14.3612 10.0558 14.2465 10.0558 14.127V7.80675C10.0549 7.68787 10.007 7.57418 9.92263 7.49044C9.83825 7.4067 9.7242 7.35969 9.60532 7.35965C9.48644 7.35961 9.37236 7.40654 9.28792 7.49022C9.20348 7.5739 9.15553 7.68756 9.1545 7.80643L9.15434 14.127Z" fill="#FC0005"/>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_178_2">
+                        <rect width="16" height="16" fill="white" transform="translate(0 0.5)"/>
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+                  <g clip-path="url(#clip0_126_226)">
+                    <path d="M0.666667 16.5C0.489856 16.5 0.320286 16.4298 0.195262 16.3047C0.0702379 16.1797 0 16.0101 0 15.8333V3.16667C0 1.696 1.196 0.500003 2.66667 0.500003H14.6653C15.732 0.463337 16.4013 1.80534 15.7307 2.63534L13.5727 5.5L15.7307 8.36467C16.402 9.19467 15.7327 10.5367 14.6653 10.5H1.33333V15.8333C1.33333 16.0101 1.2631 16.1797 1.13807 16.3047C1.01305 16.4298 0.843478 16.5 0.666667 16.5Z" fill="#0076FF"/>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_126_226">
+                      <rect width="16" height="16" fill="white" transform="translate(0 0.5)"/>
+                    </clipPath>
+                  </defs>
+                </svg>
+              </li>
+            </ul>
+            <button class="project-add-task">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 12 13" fill="none">
+                    <g clip-path="url(#clip0_87_3)">
+                    <path d="M6.17049 7.02287L10.5759 7.0228C10.8625 7.02287 11.0942 6.79121 11.0941 6.50459C11.0941 6.21803 10.8624 5.98637 10.5759 5.98637L6.17042 5.98637L6.17049 1.58097C6.17042 1.29434 5.93883 1.06275 5.65227 1.06275C5.36565 1.06268 5.13399 1.29434 5.13405 1.58097L5.13399 5.98637L0.728585 5.98643C0.44196 5.98637 0.210298 6.21803 0.210365 6.50465C0.210298 6.64753 0.268281 6.77732 0.3621 6.87114C0.455919 6.96496 0.585641 7.02287 0.728584 7.02287L5.13399 7.02281L5.13398 11.4283C5.13398 11.5712 5.1919 11.7009 5.28572 11.7948C5.37954 11.8886 5.50926 11.9465 5.6522 11.9465C5.93883 11.9466 6.17049 11.7149 6.17042 11.4283L6.17049 7.02287Z"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_87_3">
+                        <rect width="8" height="8" fill="white" transform="translate(5.65686 0.84314) rotate(45)"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+                Add task
+            </button> 
+        </div>
+    </section>
+    
+</body>
+</html>
